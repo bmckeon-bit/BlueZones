@@ -1,0 +1,1524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280" />
+<title>Blue Zones × Future of Cities — Partnership Proposal</title>
+<style>
+/* Local fonts — works offline */
+@font-face{
+  font-family:"IBM Plex Sans";
+  font-style:normal;
+  font-weight:300 700;
+  font-display:swap;
+  src:url("assets/fonts/ibm-plex-sans.woff2") format("woff2-variations"),
+      url("assets/fonts/ibm-plex-sans.woff2") format("woff2");
+}
+@font-face{
+  font-family:"Fraunces";
+  font-style:normal;
+  font-weight:500 700;
+  font-display:swap;
+  src:url("assets/fonts/fraunces.woff2") format("woff2-variations"),
+      url("assets/fonts/fraunces.woff2") format("woff2");
+}
+</style>
+<style>
+/* ============================================================
+   Future of Cities — Brand System tokens
+   (from FOC Brand Guidelines v1.0, April 2026)
+   ============================================================ */
+:root{
+  /* Primary */
+  --foc-text:   #292B41;   /* Dark Navy */
+  --foc-void:   #FFFFFF;   /* White */
+  --foc-deep:   #F7F8FA;   /* Light Gray */
+  /* Accent */
+  --foc-teal:   #A6DCCD;
+  --foc-teal-ink:#5FB09A;  /* darker teal for text on light */
+  --foc-purple: #8B7BA8;
+  --foc-gold-dim:#8BC9B8;
+  --foc-text-dim:#5A5D78;
+  /* UI / Tertiary */
+  --foc-mid:    #EEF0F4;
+  --foc-border: rgba(139,123,168,0.18);
+  /* Dark section white-on-dark tokens */
+  --on-dark-body: rgba(255,255,255,0.72);
+  --on-dark-dim:  rgba(255,255,255,0.55);
+  --on-dark-line: rgba(255,255,255,0.14);
+  --on-dark-card-bg: rgba(255,255,255,0.06);
+  --on-dark-card-border: rgba(255,255,255,0.14);
+  /* Gradients */
+  --grad-framework: linear-gradient(135deg,#292B41 0%, #3A3660 55%, #8B7BA8 100%);
+  --grad-summit:    linear-gradient(135deg,#8B7BA8 0%, #292B41 45%, #1E2038 100%);
+  --grad-toc:       linear-gradient(135deg,#292B41 0%, #8B7BA8 100%);
+  --grad-hero:      linear-gradient(135deg, #1E2038 0%, #292B41 35%, #3A3660 70%, #8B7BA8 120%);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#101225;color:var(--foc-text);font-family:"IBM Plex Sans","Inter",system-ui,sans-serif;}
+body{
+  /* Page surround, outside slide frames */
+  background:
+    radial-gradient(1200px 800px at 80% -10%, rgba(166,220,205,.08), transparent 60%),
+    radial-gradient(1200px 800px at -10% 110%, rgba(139,123,168,.10), transparent 60%),
+    #0E1020;
+  min-height:100vh;
+  padding:28px 24px 80px;
+}
+img{max-width:100%;display:block}
+
+/* ============================================================
+   Deck frame
+   ============================================================ */
+.deck{
+  max-width:1280px;
+  margin:0 auto;
+}
+.deck-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 2px 18px;color:rgba(255,255,255,.7);
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;
+}
+.deck-header .wordmark{color:#fff;font-weight:600;letter-spacing:.12em}
+.deck-header .divider{height:1px;flex:1;margin:0 18px;background:linear-gradient(90deg,rgba(166,220,205,.8) 0%, rgba(139,123,168,.6) 50%, rgba(255,255,255,.05) 100%)}
+
+/* Each slide is a fixed 1280x720 canvas (16:9) */
+.slide{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:22px;
+  overflow:hidden;
+  background:var(--foc-void);
+  color:var(--foc-text);
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.05);
+  margin-bottom:36px;
+  isolation:isolate;
+}
+.slide-counter{
+  position:absolute;right:28px;bottom:22px;z-index:6;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--foc-text-dim);font-weight:500;
+}
+.slide.dark .slide-counter{color:rgba(255,255,255,.55)}
+
+/* Logo / brand mark block, top-left of every slide */
+.foc-mark{
+  position:absolute;top:28px;left:36px;z-index:6;
+  display:flex;flex-direction:column;gap:4px;line-height:1;
+}
+.foc-mark .kicker{
+  font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:400;
+  color:var(--foc-purple);
+}
+.foc-mark .word{
+  display:block;height:26px;width:auto;
+  content:url('assets/FOC_logo-secondary-k.png');   /* black version on light slides */
+}
+.slide.dark .foc-mark .word{
+  content:url('assets/FOC_logo-secondary-ko.png');  /* white knockout on dark slides */
+}
+.slide.dark .foc-mark .kicker{color:var(--foc-teal)}
+
+/* Top-right badge: FOC × BLUE ZONES */
+.pair-badge{
+  position:absolute;top:28px;right:36px;z-index:6;
+  display:flex;align-items:center;gap:10px;
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;
+  color:var(--foc-text-dim);
+}
+.pair-badge .x{color:var(--foc-purple)}
+.slide.dark .pair-badge{color:rgba(255,255,255,.6)}
+.slide.dark .pair-badge .x{color:var(--foc-teal)}
+
+/* ============================================================
+   Typography primitives
+   ============================================================ */
+.eyebrow{
+  font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:500;
+  color:var(--foc-purple); margin:0 0 14px;
+}
+.slide.dark .eyebrow{color:var(--foc-teal)}
+.h-hero{
+  font-family:"Fraunces","Georgia",serif;
+  font-weight:600;letter-spacing:-0.02em;line-height:1.05;
+  font-size:60px;margin:0 0 18px;color:var(--foc-text);
+}
+.h-title{
+  font-family:"Fraunces","Georgia",serif;
+  font-weight:600;letter-spacing:-0.02em;line-height:1.1;
+  font-size:42px;margin:0 0 14px;color:var(--foc-text);
+}
+.h-sub{
+  font-weight:400;font-size:18px;line-height:1.45;
+  color:var(--foc-text-dim);margin:0 0 22px;max-width:720px;
+}
+.slide.dark .h-hero,
+.slide.dark .h-title{color:#fff}
+.slide.dark .h-sub{color:var(--on-dark-body)}
+.t-em{color:var(--foc-teal-ink);font-style:italic;font-family:"Fraunces",serif;font-weight:500}
+.slide.dark .t-em{color:var(--foc-teal);font-style:normal;font-weight:600}
+.label{
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;
+  color:var(--foc-purple);
+}
+.slide.dark .label{color:var(--foc-teal)}
+
+/* ============================================================
+   Layout helpers
+   ============================================================ */
+.pad{padding:92px 80px 70px;}
+.pad-tight{padding:78px 80px 60px;}
+.row{display:flex;gap:32px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.footer-note{
+  position:absolute;left:80px;right:80px;bottom:52px;
+  font-size:11px;color:var(--foc-text-dim);letter-spacing:.01em;line-height:1.5;
+}
+.slide.dark .footer-note{color:rgba(255,255,255,.45)}
+
+/* Dark treatments */
+.slide.dark{background:var(--grad-framework);color:#fff}
+.slide.dark.summit{background:var(--grad-summit)}
+.slide.dark.toc{background:var(--grad-toc)}
+.slide.dark::after{
+  /* Ambient teal glow top-right */
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(600px 500px at 92% 6%, rgba(166,220,205,.12), transparent 65%);
+}
+.slide.dark > *:not(.foc-mark):not(.pair-badge):not(.slide-counter):not(.noise):not(.fish-field):not(.bleed):not(.cap):not(.wrap):not(img){position:relative;z-index:2}
+.slide.dark > .cap,
+.slide.dark > .wrap{z-index:3}
+.slide.dark > img.bleed{z-index:0}
+
+/* Stat display */
+.stat{
+  display:flex;flex-direction:column;gap:6px;
+}
+.stat .n{
+  font-family:"Fraunces","Georgia",serif;
+  font-weight:600;letter-spacing:-0.03em;line-height:.95;
+  font-size:72px;color:var(--foc-text);
+}
+.stat.teal .n{color:var(--foc-teal-ink)}
+.stat.purple .n{color:var(--foc-purple)}
+.slide.dark .stat .n{color:#fff}
+.slide.dark .stat.teal .n{color:var(--foc-teal)}
+.slide.dark .stat.purple .n{color:#C9BFE0}
+.stat .lbl{
+  font-size:13px;line-height:1.35;color:var(--foc-text);font-weight:600;
+}
+.slide.dark .stat .lbl{color:#fff}
+.stat .desc{
+  font-size:12px;line-height:1.5;color:var(--foc-text-dim);margin-top:4px;
+}
+.slide.dark .stat .desc{color:var(--on-dark-body)}
+
+/* Cards */
+.card{
+  background:var(--foc-void);
+  border:1px solid var(--foc-border);
+  border-radius:14px;padding:22px 22px 20px;
+  box-shadow:0 1px 0 rgba(41,43,65,.02);
+}
+.card-mid{background:var(--foc-mid);border-color:transparent}
+.slide.dark .card{
+  background:var(--on-dark-card-bg);
+  border-color:var(--on-dark-card-border);
+  backdrop-filter:blur(2px);
+}
+.card h4{
+  margin:0 0 6px;font-size:16px;font-weight:600;letter-spacing:-0.005em;
+  color:var(--foc-text);
+}
+.slide.dark .card h4{color:#fff}
+.card p{margin:0;font-size:13.5px;line-height:1.55;color:var(--foc-text-dim);}
+.slide.dark .card p{color:var(--on-dark-body)}
+
+/* Chip / pill */
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:999px;
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  background:rgba(166,220,205,.22);color:#41876F;
+  border:1px solid rgba(95,176,154,.25);
+}
+.pill.purple{background:rgba(139,123,168,.15);color:#6B5E8A;border-color:rgba(139,123,168,.25)}
+.slide.dark .pill{background:rgba(166,220,205,.16);color:var(--foc-teal);border-color:rgba(166,220,205,.3)}
+.slide.dark .pill.purple{background:rgba(139,123,168,.28);color:#D7CFEA;border-color:rgba(139,123,168,.45)}
+
+/* Table */
+table.t{
+  width:100%;border-collapse:separate;border-spacing:0;
+  font-size:13px;color:var(--foc-text);
+}
+table.t th,table.t td{
+  padding:11px 14px;text-align:left;
+  border-bottom:1px solid var(--foc-border);
+  vertical-align:middle;
+}
+table.t th{
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--foc-text-dim);font-weight:600;
+  background:var(--foc-mid);
+  border-bottom:none;
+}
+table.t thead th:first-child{border-top-left-radius:10px}
+table.t thead th:last-child{border-top-right-radius:10px}
+table.t tbody tr:last-child td{border-bottom:none}
+table.t .col-foc{color:var(--foc-text);font-weight:600}
+table.t .col-bz{color:var(--foc-text);font-weight:600}
+table.t .role-lead{
+  display:inline-block;padding:3px 9px;border-radius:999px;background:#292B41;color:#fff;font-size:11px;font-weight:600;letter-spacing:.04em;
+}
+table.t .role-co{
+  display:inline-block;padding:3px 9px;border-radius:999px;background:var(--foc-teal);color:#29523D;font-size:11px;font-weight:700;letter-spacing:.04em;
+}
+table.t .role-sec{
+  display:inline-block;padding:3px 9px;border-radius:999px;background:rgba(139,123,168,.15);color:#6B5E8A;font-size:11px;font-weight:600;letter-spacing:.04em;border:1px solid rgba(139,123,168,.25);
+}
+table.t .role-dim{color:var(--foc-text-dim);font-size:12px;letter-spacing:.04em;}
+table.t .highlight-col{background:rgba(166,220,205,.12)}
+table.t .highlight-col-head{background:var(--foc-text);color:#fff}
+
+/* Decorative divider */
+.brand-divider{
+  height:3px;width:56px;border-radius:3px;
+  background:linear-gradient(90deg,var(--foc-teal) 0%, var(--foc-purple) 100%);
+  margin:0 0 22px;
+}
+.slide.dark .brand-divider{
+  background:linear-gradient(90deg,var(--foc-teal) 0%, rgba(255,255,255,.4) 100%);
+}
+
+/* Big key number inside cards (for deal slide) */
+.bignum{
+  font-family:"Fraunces","Georgia",serif;
+  font-weight:600;letter-spacing:-0.03em;line-height:1;
+  font-size:38px;color:var(--foc-text);
+}
+.slide.dark .bignum{color:#fff}
+
+/* Image treatments */
+.img-frame{
+  position:relative;overflow:hidden;border-radius:12px;
+  background:var(--foc-mid);
+}
+.img-frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(10%) contrast(1.02);}
+.img-frame.square{aspect-ratio:1/1}
+.img-frame.wide{aspect-ratio:16/10}
+.img-frame.tall{aspect-ratio:4/5}
+
+/* Light-section striping */
+.slide.light-b{background:var(--foc-deep)}
+
+/* Fish-school canvas-ish animated dot field (CSS-only lightweight version) */
+.fish-field{
+  position:absolute;inset:0;z-index:0;opacity:.45;pointer-events:none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(166,220,205,.35) 0 2px, transparent 3px),
+    radial-gradient(circle at 60% 20%, rgba(166,220,205,.22) 0 1.5px, transparent 3px),
+    radial-gradient(circle at 85% 45%, rgba(139,123,168,.35) 0 2px, transparent 3px),
+    radial-gradient(circle at 30% 70%, rgba(166,220,205,.22) 0 1.5px, transparent 3px),
+    radial-gradient(circle at 75% 80%, rgba(139,123,168,.25) 0 1.5px, transparent 3px),
+    radial-gradient(circle at 10% 85%, rgba(166,220,205,.28) 0 1.5px, transparent 3px);
+  background-size: 480px 360px;
+  mix-blend-mode:screen;
+  animation:drift 22s linear infinite;
+}
+@keyframes drift{
+  0%{background-position:0 0, 120px 40px, 240px 80px, 360px 120px, 60px 200px, 300px 260px}
+  100%{background-position:480px 0, 600px 40px, 720px 80px, 840px 120px, 540px 200px, 780px 260px}
+}
+
+/* Fractal noise overlay for premium feel */
+.noise{
+  position:absolute;inset:0;pointer-events:none;z-index:3;opacity:.035;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ============================================================
+   Scroll reveal
+   ============================================================ */
+.sr{opacity:0;transform:translateY(24px);transition:opacity 1.1s cubic-bezier(.4,0,.15,1), transform 1.1s cubic-bezier(.4,0,.15,1);transition-delay:var(--d,0ms)}
+.sr.on{opacity:1;transform:none}
+.sr-left{opacity:0;transform:translateX(-30px);transition:opacity 1.1s cubic-bezier(.4,0,.15,1), transform 1.1s cubic-bezier(.4,0,.15,1);transition-delay:var(--d,0ms)}
+.sr-left.on{opacity:1;transform:none}
+.sr-scale{opacity:0;transform:scale(.96);transition:opacity 1.1s cubic-bezier(.4,0,.15,1), transform 1.1s cubic-bezier(.4,0,.15,1);transition-delay:var(--d,0ms)}
+.sr-scale.on{opacity:1;transform:none}
+
+/* ============================================================
+   Slide-specific styles
+   ============================================================ */
+
+/* --- Slide 1: Title --- */
+.slide-1{background:var(--grad-summit);color:#fff;}
+.slide-1 .hero-split{display:grid;grid-template-columns:1.1fr .9fr;height:100%}
+.slide-1 .hero-left{padding:90px 60px 68px 80px;display:flex;flex-direction:column;justify-content:center;gap:18px;position:relative;z-index:3}
+.slide-1 .hero-right{position:relative;overflow:hidden}
+.slide-1 .hero-right img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) brightness(.7);}
+.slide-1 .hero-right::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg, #292B41 0%, rgba(41,43,65,.55) 28%, rgba(41,43,65,0) 60%);
+}
+.slide-1 .small-tag{
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;color:var(--foc-teal);
+}
+.slide-1 h1{
+  font-family:"Fraunces",serif;font-weight:600;
+  font-size:78px;line-height:.98;letter-spacing:-.02em;margin:8px 0 14px;color:#fff;
+}
+.slide-1 h1 em{font-style:italic;color:var(--foc-teal);font-weight:500}
+.slide-1 .lede{font-size:17px;line-height:1.55;color:var(--on-dark-body);max-width:520px}
+.slide-1 .meta{margin-top:auto;display:flex;flex-direction:column;gap:4px;color:var(--on-dark-dim);font-size:13px;letter-spacing:.04em}
+.slide-1 .meta .strong{color:#fff;font-weight:500}
+.slide-1 .cta-row{display:flex;gap:14px;margin-top:10px}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;border-radius:999px;background:var(--foc-teal);color:#1E4036;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+  box-shadow:0 6px 18px rgba(139,123,168,.3);
+}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 22px;border-radius:999px;background:transparent;color:#fff;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  border:1.5px solid rgba(255,255,255,.3);
+}
+
+/* --- Slide 2: The opportunity --- */
+.slide-2 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:14px}
+.slide-2 .stat .n{font-size:80px}
+.slide-2 .btm-strip{
+  position:absolute;left:80px;right:80px;bottom:62px;
+  padding:18px 22px;border-radius:12px;
+  background:linear-gradient(90deg,rgba(166,220,205,.14),rgba(139,123,168,.14));
+  border:1px solid var(--foc-border);
+  color:var(--foc-text);
+  display:flex;gap:14px;align-items:center;
+  font-size:13px;line-height:1.45;
+}
+.slide-2 .btm-strip b{color:var(--foc-text);font-weight:600}
+
+/* --- Slide 3: Sponsor --- */
+.slide-3 .sponsor-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:start}
+.slide-3 .tri-imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;height:330px}
+.slide-3 .tri-imgs .img-frame:first-child{grid-row:1/3}
+.slide-3 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+.slide-3 .stat-row .stat .n{font-size:34px}
+.slide-3 .stat-row .stat .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--foc-text-dim);font-weight:600;line-height:1.3}
+.slide-3 .as-seen{display:flex;gap:18px;align-items:center;margin-top:14px;color:var(--foc-text-dim);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;flex-wrap:wrap;}
+.slide-3 .as-seen img{height:18px;width:auto;opacity:.65;filter:grayscale(100%) contrast(1.1)}
+.slide-3 .as-seen .book{height:70px;filter:none;opacity:1}
+.slide-3 .as-seen.full{
+  margin-top:22px;gap:28px;padding:16px 22px;
+  background:linear-gradient(90deg,rgba(166,220,205,.10),rgba(139,123,168,.10));
+  border:1px solid var(--foc-border);border-radius:12px;
+  font-size:12px;letter-spacing:.22em;justify-content:flex-start;
+}
+.slide-3 .as-seen.full img{height:26px;opacity:.8}
+.slide-3 .as-seen.full .book{height:86px;opacity:1}
+.slide-3 .tri-imgs .img-frame.tagged{position:relative}
+.slide-3 .tri-imgs .photo-tag{
+  position:absolute;left:10px;bottom:10px;z-index:2;
+  padding:4px 10px;border-radius:999px;
+  background:rgba(41,43,65,.78);color:#fff;
+  font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+  backdrop-filter:blur(2px);
+}
+.slide-3 .tri-imgs .img-frame.tagged::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 55%, rgba(41,43,65,.35) 100%);
+}
+.slide-3 h2.h-title{font-size:36px;margin-bottom:10px}
+.slide-3 .h-sub{font-size:14.5px;margin-bottom:14px}
+.slide-3 .pad{padding-top:70px;padding-bottom:40px}
+
+/* --- Slide 4: Full-bleed image with caption --- */
+.slide-4{background:#0D0F22;}
+.slide-4 img.bleed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.85) saturate(1.05)}
+.slide-4::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(41,43,65,.82) 0%, rgba(41,43,65,.2) 45%, rgba(139,123,168,.35) 100%)}
+.slide-4 .cap{position:absolute;z-index:3;left:80px;bottom:92px;max-width:640px}
+.slide-4 .cap h2{font-family:"Fraunces",serif;font-weight:500;font-size:58px;line-height:1.05;color:#fff;margin:8px 0 12px;letter-spacing:-.02em}
+.slide-4 .cap p{color:var(--on-dark-body);font-size:16px;line-height:1.5}
+
+/* --- Slide 5: Why Blue Zones (Blue Zones co-branded) --- */
+.slide-5{background:var(--foc-deep)}
+.slide-5 .pad{padding:84px 80px 50px}
+.slide-5 .stat-6{display:grid;grid-template-columns:repeat(3,1fr);gap:30px 56px;margin-top:44px;max-width:1120px;padding-bottom:0}
+.slide-5 .stat{padding:2px 0}
+.slide-5 .stat .n{font-size:72px;line-height:1}
+.slide-5 .stat .lbl{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--foc-text-dim);font-weight:600;margin-top:8px}
+.slide-5 .btm-strip{font-size:14.5px!important;line-height:1.5}
+/* BZ brand palette when dark class is applied */
+.slide-5.dark{background:linear-gradient(135deg,#0B3C7A 0%, #1B5AA0 45%, #2E7AC4 100%)}
+.slide-5.dark .eyebrow{color:#A8D4EE}
+.slide-5.dark .t-em{color:#A8D4EE;font-style:italic;font-weight:500}
+.slide-5.dark .stat .lbl{color:rgba(255,255,255,.9)}
+.slide-5.dark .stat .desc{color:rgba(255,255,255,.72)}
+.slide-5.dark .stat.teal .n{color:#5CC8F2}
+.slide-5.dark .stat.purple .n{color:#C9E3F5}
+.slide-5.dark .brand-divider{background:linear-gradient(90deg,#5CC8F2 0%, rgba(255,255,255,.35) 100%)}
+.slide-5.dark .pill.purple{background:rgba(92,200,242,.22);color:#DCEBF6;border-color:rgba(92,200,242,.4)}
+.slide-5.dark .btm-strip{
+  background:linear-gradient(90deg,rgba(92,200,242,.18),rgba(255,255,255,.10));
+  border:1px solid rgba(255,255,255,.20);color:#fff;
+}
+.slide-5.dark .btm-strip b{color:#fff;font-weight:600}
+.slide-5.dark .footer-note{color:rgba(255,255,255,.55)}
+.slide-5 .bz-chip{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;padding:16px 24px;border-radius:14px;
+  box-shadow:0 14px 36px rgba(11,60,122,.45), 0 2px 6px rgba(11,60,122,.2);
+}
+.slide-5 .bz-chip img{height:58px;width:auto;display:block}
+
+/* --- Slide 6: Partnership model --- */
+.slide-6 .flow{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  align-items:stretch;margin-top:12px;
+}
+.slide-6 .node{
+  background:var(--foc-void);border:1px solid var(--foc-border);border-radius:14px;
+  padding:20px 18px;position:relative;display:flex;flex-direction:column;gap:6px;
+}
+.slide-6 .node .role{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--foc-purple)}
+.slide-6 .node h4{font-family:"Fraunces",serif;font-weight:600;font-size:20px;letter-spacing:-.01em;margin:2px 0 4px;color:var(--foc-text)}
+.slide-6 .node p{font-size:12.5px;line-height:1.45;color:var(--foc-text-dim);margin:0}
+.slide-6 .node.accent{background:var(--foc-text);color:#fff;border-color:transparent}
+.slide-6 .node.accent .role{color:var(--foc-teal)}
+.slide-6 .node.accent h4,.slide-6 .node.accent p{color:#fff}
+.slide-6 .node.accent p{color:var(--on-dark-body)}
+.slide-6 .node.community{
+  background:linear-gradient(180deg,rgba(166,220,205,.28),rgba(139,123,168,.12));
+  border-color:rgba(95,176,154,.45);
+}
+.slide-6 .arrow{
+  position:absolute;top:50%;right:-11px;width:22px;height:22px;z-index:2;
+  transform:translateY(-50%);display:grid;place-items:center;
+  background:var(--foc-deep);border-radius:999px;color:var(--foc-purple);font-size:13px;font-weight:700;
+  border:1px solid var(--foc-border);
+}
+.slide-6 .targets{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.slide-6 .target{
+  padding:14px 16px;border-radius:12px;background:var(--foc-mid);
+  display:flex;flex-direction:column;gap:2px;
+}
+.slide-6 .target .ttl{font-size:12.5px;font-weight:600;color:var(--foc-text)}
+.slide-6 .target .sub{font-size:11.5px;color:var(--foc-text-dim);line-height:1.4}
+
+/* --- Slide 7: RACI --- */
+.slide-7 table.t td{font-size:12px;padding:7px 14px;line-height:1.3}
+.slide-7 table.t th{padding:9px 14px}
+.slide-7 .legend{margin-top:12px;display:flex;gap:18px;font-size:11px;color:var(--foc-text-dim);align-items:center}
+.slide-7 .legend span{display:inline-flex;align-items:center;gap:8px}
+.slide-7 .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* --- Slide 8: Three deals --- */
+.slide-8 .pad-tight{padding:64px 80px 50px}
+.slide-8 .h-title{margin-bottom:10px}
+.slide-8 .deal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:4px}
+.slide-8 .deal{
+  background:var(--foc-void);border:1px solid var(--foc-border);border-radius:12px;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.slide-8 .deal .img-frame{aspect-ratio:2/1;border-radius:0}
+.slide-8 .deal .body{padding:12px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.slide-8 .deal .pill-row{display:flex;gap:6px;flex-wrap:wrap}
+.slide-8 .deal h4{font-family:"Fraunces",serif;font-weight:600;font-size:18px;letter-spacing:-.01em;margin:1px 0 1px;color:var(--foc-text);line-height:1.15}
+.slide-8 .deal .loc{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--foc-purple);font-weight:600}
+.slide-8 .deal .desc{font-size:11.5px;line-height:1.45;color:var(--foc-text-dim)}
+.slide-8 .deal .fee{
+  margin-top:2px;padding:8px 10px;border-radius:8px;background:var(--foc-mid);
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+}
+.slide-8 .deal .fee .big{font-family:"Fraunces",serif;font-weight:700;font-size:20px;color:var(--foc-text);letter-spacing:-.02em}
+.slide-8 .deal .fee .det{font-size:9.5px;color:var(--foc-text-dim);text-align:right;line-height:1.3}
+.slide-8 .deal .why{border-top:1px dashed var(--foc-border);padding-top:6px;margin-top:1px}
+.slide-8 .deal .why .k{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--foc-teal-ink);font-weight:700;margin-bottom:2px}
+.slide-8 .deal .why .v{font-size:11px;line-height:1.45;color:var(--foc-text-dim)}
+
+/* --- Slide 9: Track record grid --- */
+.slide-9{background:var(--foc-deep)}
+.slide-9 .track-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:14px;margin-top:6px}
+.slide-9 .track{
+  position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;
+  background:#1a1c33;
+}
+.slide-9 .track img{width:100%;height:100%;object-fit:cover;filter:grayscale(8%) contrast(1.02)}
+.slide-9 .track::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%, rgba(41,43,65,.85) 100%)}
+.slide-9 .track .cap{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;color:#fff}
+.slide-9 .track .cap .k{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--foc-teal);font-weight:600;margin-bottom:2px}
+.slide-9 .track .cap .v{font-family:"Fraunces",serif;font-weight:600;font-size:16px;line-height:1.15;letter-spacing:-.005em}
+
+/* --- Slide 10: Licensing tiers --- */
+.slide-10{background:var(--grad-framework);color:#fff}
+.slide-10 .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:12px}
+.slide-10 .tier{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-radius:16px;padding:22px 22px 20px;
+  display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;
+}
+.slide-10 .tier.featured{background:linear-gradient(180deg,rgba(166,220,205,.14),rgba(139,123,168,.22));border-color:rgba(166,220,205,.35)}
+.slide-10 .tier .t-num{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--foc-teal);font-weight:600}
+.slide-10 .tier h4{font-family:"Fraunces",serif;font-weight:600;font-size:22px;letter-spacing:-.01em;margin:0;color:#fff}
+.slide-10 .tier .sub{font-size:12px;color:var(--on-dark-body);line-height:1.4}
+.slide-10 .tier .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.slide-10 .tier .tag{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.18);font-weight:500}
+.slide-10 .tier .fee{
+  font-family:"Fraunces",serif;font-weight:600;font-size:28px;letter-spacing:-.02em;color:#fff;margin:6px 0 0;
+}
+.slide-10 .tier .desc{font-size:12px;line-height:1.55;color:var(--on-dark-body);margin-top:4px}
+
+/* --- Slide 11: LOI / proposed terms --- */
+.slide-11 .term-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.slide-11 .term{
+  position:relative;background:var(--foc-void);border:1px solid var(--foc-border);border-radius:14px;
+  padding:22px 22px 20px;display:flex;flex-direction:column;gap:8px;
+}
+.slide-11 .term .n{
+  font-family:"Fraunces",serif;font-weight:600;font-size:15px;
+  width:34px;height:34px;border-radius:999px;
+  background:linear-gradient(135deg,var(--foc-teal) 0%, var(--foc-purple) 100%);color:#fff;
+  display:grid;place-items:center;letter-spacing:0;
+}
+.slide-11 .term h4{font-family:"Fraunces",serif;font-weight:600;font-size:18px;letter-spacing:-.01em;margin:2px 0 0;color:var(--foc-text)}
+.slide-11 .term p{font-size:12.5px;line-height:1.55;color:var(--foc-text-dim);margin:0}
+
+/* --- Slide 12: CTA --- */
+.slide-12{background:#0E1020;color:#fff}
+.slide-12 img.bleed{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.85) saturate(1.05)}
+.slide-12::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(41,43,65,.82) 0%, rgba(41,43,65,.45) 50%, rgba(41,43,65,.15) 100%)}
+.slide-12 .wrap{position:absolute;z-index:3;inset:0;padding:92px 80px 72px;display:flex;flex-direction:column;justify-content:center}
+.slide-12 h2{font-family:"Fraunces",serif;font-weight:500;font-size:68px;line-height:1.02;letter-spacing:-.02em;color:#fff;margin:0}
+.slide-12 h2 em{font-style:italic;color:var(--foc-teal);font-weight:500}
+.slide-12 .quote{
+  margin-top:20px;max-width:640px;font-family:"Fraunces",serif;font-size:20px;line-height:1.4;color:#E6DFF3;font-style:italic;font-weight:400;
+  padding-left:18px;border-left:2px solid var(--foc-teal);
+}
+.slide-12 .quote .att{display:block;margin-top:8px;font-style:normal;font-family:"IBM Plex Sans",sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--foc-teal);font-weight:600}
+.slide-12 .timeline{display:flex;gap:14px;margin-top:36px}
+.slide-12 .step{
+  flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;
+}
+.slide-12 .step .n{
+  font-family:"Fraunces",serif;font-weight:600;font-size:22px;color:var(--foc-teal);letter-spacing:-.02em;
+  width:30px;flex:0 0 30px;
+}
+.slide-12 .step .lbl{font-size:13px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:3px}
+.slide-12 .step .when{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--foc-teal);font-weight:600}
+.slide-12 .sign{margin-top:30px;display:flex;gap:20px;align-items:center;color:rgba(255,255,255,.7);font-size:13px}
+.slide-12 .sign .who{color:#fff;font-weight:600}
+
+/* --- Slide 13: Comp benchmarks --- */
+.slide-13 table.t th.bz{background:var(--foc-text);color:#fff}
+.slide-13 table.t td.bz{background:rgba(41,43,65,.04);font-weight:600;color:var(--foc-text)}
+.slide-13 .note{margin-top:14px;font-size:12.5px;line-height:1.55;color:var(--foc-text-dim);max-width:920px}
+.slide-13 .note b{color:var(--foc-text);font-weight:600}
+
+/* --- Slide: Sustainability Plan (light-b) --- */
+.slide-sustain{background:var(--foc-deep)}
+.slide-sustain .city-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px 10px;margin-top:22px;
+}
+.slide-sustain .city{
+  background:#fff;border:1px solid var(--foc-border);border-radius:12px;
+  padding:16px 18px;display:flex;flex-direction:column;gap:4px;
+  transition:transform .3s ease, border-color .3s ease;
+}
+.slide-sustain .city.active{border-color:var(--foc-teal-ink);background:linear-gradient(135deg,#fff 0%, rgba(166,220,205,.12) 100%)}
+.slide-sustain .city .name{font-family:"Fraunces",serif;font-weight:500;font-size:18px;color:var(--foc-text);letter-spacing:-.01em}
+.slide-sustain .city .sub{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--foc-text-dim);font-weight:600}
+.slide-sustain .city.coming{background:transparent;border-style:dashed;opacity:.75}
+.slide-sustain .thesis-strip{
+  margin-top:22px;padding:14px 20px;background:var(--foc-text);color:#fff;border-radius:14px;
+  display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;
+}
+.slide-sustain .thesis-strip .tag{
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--foc-teal);font-weight:700;
+  border:1px solid rgba(166,220,205,.4);padding:6px 12px;border-radius:100px;white-space:nowrap;
+}
+.slide-sustain .thesis-strip .txt{font-size:13.5px;line-height:1.55;color:rgba(255,255,255,.88)}
+.slide-sustain .thesis-strip .txt b{color:#fff;font-weight:600}
+
+/* --- Slide: Capital Stack (dark summit) --- */
+.slide-stack .stack-grid{
+  display:grid;grid-template-columns:1.2fr auto 0.9fr;gap:22px;align-items:center;margin-top:18px;
+}
+.slide-stack .stack-col{display:flex;flex-direction:column;gap:7px}
+.slide-stack .stack-piece{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;
+  padding:10px 14px;
+}
+.slide-stack .stack-piece .role{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--foc-teal);font-weight:700;margin-bottom:3px}
+.slide-stack .stack-piece .contrib{font-family:"Fraunces",serif;font-size:15px;font-weight:500;color:#fff;line-height:1.25;letter-spacing:-.01em}
+.slide-stack .stack-piece .sub{font-size:11px;line-height:1.4;color:var(--on-dark-body);margin-top:3px}
+.slide-stack .stack-arrow{
+  font-family:"Fraunces",serif;font-size:40px;color:var(--foc-teal);
+  display:flex;align-items:center;justify-content:center;opacity:.7;
+}
+.slide-stack .stack-result{
+  background:linear-gradient(135deg,rgba(166,220,205,.18) 0%, rgba(139,123,168,.28) 100%);
+  border:1px solid var(--foc-teal);border-radius:16px;padding:18px 18px;
+}
+.slide-stack .stack-result .lbl{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--foc-teal);font-weight:700;margin-bottom:6px}
+.slide-stack .stack-result h3{font-family:"Fraunces",serif;font-weight:500;font-size:24px;line-height:1.1;letter-spacing:-.02em;color:#fff;margin:0 0 8px}
+.slide-stack .stack-result p{font-size:11.5px;line-height:1.5;color:var(--on-dark-body);margin:0}
+.slide-stack .foot-strip{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.slide-stack .foot-strip .pill{
+  font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  background:rgba(255,255,255,.08);color:var(--foc-teal);border:1px solid rgba(166,220,205,.3);
+  padding:6px 11px;border-radius:100px;
+}
+
+/* Print / export: reveal all instantly */
+@media print{
+  .sr,.sr-left,.sr-scale{opacity:1!important;transform:none!important}
+  body{background:#fff;padding:0}
+  .slide{page-break-after:always;box-shadow:none;border-radius:0;margin:0}
+  .deck-header{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+<div class="deck-header">
+  <span class="wordmark">FOC × BLUE ZONES</span>
+  <span class="divider"></span>
+  <span>Partnership Proposal · April 2026</span>
+</div>
+
+<!-- ============================================================
+     SLIDE 1 — TITLE
+     ============================================================ -->
+<section class="slide slide-1 dark summit" aria-label="Slide 1 of 16">
+  <div class="fish-field"></div>
+  <div class="noise"></div>
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+  <div class="hero-split">
+    <div class="hero-left">
+      <div class="small-tag sr">Blue Zones × Future of Cities</div>
+      <h1 class="sr" style="--d:80ms">Bringing <em>Wellness</em><br/>to Real Estate.</h1>
+      <p class="lede sr" style="--d:160ms">A wellness real estate partnership proposal — pairing the world's most trusted longevity brand with a platform built around community-scale placemaking.</p>
+      <div class="cta-row sr" style="--d:240ms">
+        <a class="btn-primary">Explore the partnership →</a>
+        <a class="btn-ghost">Sign the LOI</a>
+      </div>
+      <div class="meta sr" style="--d:320ms">
+        <span>Prepared for <span class="strong">Dan Buettner Jr.</span> · Blue Zones, LLC</span>
+        <span>Tony Cho · Future of Cities · tony@focities.com</span>
+        <span>April 2026</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="assets/hero-cliff.jpg" alt="Blue Zones lifestyle" />
+    </div>
+  </div>
+  <div class="slide-counter">01 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — THE OPPORTUNITY
+     ============================================================ -->
+<section class="slide slide-2" aria-label="Slide 2 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad">
+    <div class="eyebrow sr">The Opportunity</div>
+    <h2 class="h-title sr" style="--d:60ms">The world's most <em class="t-em">trusted wellness brand</em><br/>meets the real estate platform built around community.</h2>
+    <div class="brand-divider sr" style="--d:120ms"></div>
+
+    <div class="stat-grid">
+      <div class="stat teal sr" style="--d:160ms">
+        <div class="n">$1.1T</div>
+        <div class="lbl">Wellness Real Estate Market (2029P)</div>
+        <div class="desc">Doubled from $548B in 2024. ~20% CAGR. $6T+ global wellness economy.</div>
+      </div>
+      <div class="stat sr" style="--d:240ms">
+        <div class="n">910</div>
+        <div class="lbl">Branded Residences (2025)</div>
+        <div class="desc">Up from 323 in 2015. Heading to 1,747 by 2032.</div>
+      </div>
+      <div class="stat purple sr" style="--d:320ms">
+        <div class="n">550K</div>
+        <div class="lbl">Senior Housing Shortfall by 2030</div>
+        <div class="desc">10K Americans turn 80 daily. $275B supply gap emerging.</div>
+      </div>
+    </div>
+
+    <div class="btm-strip sr" style="--d:420ms">
+      <span class="pill purple">Why now</span>
+      <span>Blue Zones' <b>#1 pillar is community</b>. Regenerative placemaking is built on the same foundation. <b>Opportunity Zones 2.0, TIF financing,</b> and health-system land contributions align the capital stack with the thesis.</span>
+    </div>
+  </div>
+
+  <div class="footer-note" style="bottom:24px">Sources: Global Wellness Institute, 2025 · Savills Branded Residences Report 2025/26 · NIC MAP Vision, 2024</div>
+  <div class="slide-counter">02 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — ABOUT THE SPONSOR
+     ============================================================ -->
+<section class="slide slide-3 light-b" aria-label="Slide 3 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad">
+    <div class="sponsor-layout">
+      <div>
+        <div class="eyebrow sr-left">About the Sponsor</div>
+        <h2 class="h-title sr-left" style="--d:60ms">A platform built for <em class="t-em">place-based value</em>.</h2>
+        <div class="brand-divider sr-left" style="--d:100ms"></div>
+        <p class="h-sub sr-left" style="--d:140ms">Future of Cities is a real estate investment and development platform with over 60 years of combined executive experience — led by teams that shaped Florida's most iconic neighborhood-scale districts, including Wynwood Arts District and Magic City in Little Haiti.</p>
+        <p class="sr-left" style="--d:180ms;font-size:12.5px;line-height:1.55;color:var(--foc-text-dim);max-width:560px">Founded by <b style="color:var(--foc-text)">Tony Cho</b> — an early catalyst in emerging districts and founding board member of the Wynwood BID — FOC pairs strong financial performance with place-based impact. Through public-private partnerships and a global advisory board of urban development and impact experts, FOC targets opportunity-driven investments with a focus on long-term value creation.</p>
+
+        <div class="stat-row sr-left" style="--d:260ms">
+          <div class="stat teal"><div class="n">40%+</div><div class="lbl">Internal Rate<br/>of Return</div></div>
+          <div class="stat"><div class="n">4×</div><div class="lbl">District<br/>Exits</div></div>
+          <div class="stat purple"><div class="n">$2B+</div><div class="lbl">Development<br/>Impact</div></div>
+          <div class="stat"><div class="n">$4B+</div><div class="lbl">Completed<br/>Transactions</div></div>
+        </div>
+      </div>
+      <div class="sr-scale" style="--d:200ms">
+        <div class="tri-imgs">
+          <div class="img-frame tagged"><img src="assets/wynwood-walls.jpg" alt="Wynwood Walls"/><span class="photo-tag">Wynwood</span></div>
+          <div class="img-frame tagged"><img src="assets/magic-city.jpg" alt="Magic City Innovation District"/><span class="photo-tag">Magic City</span></div>
+          <div class="img-frame tagged"><img src="assets/wynwood-solar.jpg" alt="Wynwood solar-forward building"/><span class="photo-tag">Little Haiti</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="as-seen sr-left full" style="--d:340ms">
+      <span>As seen in</span>
+      <img src="assets/road-to-utopia.png" alt="Road to Utopia — Amazon Prime Video"/>
+      <img src="assets/gaia-logo.png" alt="Gaia"/>
+      <span>& new book</span>
+      <img class="book" src="assets/book-generation.png" alt="Generation Regeneration — Tony Cho"/>
+    </div>
+  </div>
+
+  <div class="slide-counter">03 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — REGENERATIVE PLACEMAKING
+     ============================================================ -->
+<section class="slide slide-regen dark summit" aria-label="Slide 4 of 16">
+  <div class="fish-field"></div>
+  <div class="noise"></div>
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad" style="display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;height:100%">
+    <div>
+      <div class="eyebrow sr" style="color:var(--foc-teal)">Our Approach</div>
+      <h2 class="h-title sr" style="--d:60ms;color:#fff">Regenerative <em style="font-style:italic;color:var(--foc-teal);font-weight:500">Placemaking</em>.</h2>
+      <div class="brand-divider sr" style="--d:100ms;background:linear-gradient(90deg,var(--foc-teal) 0%, rgba(255,255,255,.4) 100%)"></div>
+      <p class="sr" style="--d:140ms;font-size:15.5px;line-height:1.7;color:var(--on-dark-body);max-width:620px;margin:0">
+        At Future of Cities, we see development through a <b style="color:#fff;font-weight:600">regenerative lens</b> — where nature, community, and culture shape thriving, resilient places. Our bioregional hubs apply ecosystems thinking to <b style="color:#fff;font-weight:600">re-village real estate</b>, weaving together climate-conscious design, circular economies, and community-driven innovation.
+      </p>
+      <p class="sr" style="--d:200ms;font-size:15.5px;line-height:1.7;color:var(--on-dark-body);max-width:620px;margin:14px 0 0">
+        By restoring ecological balance and fostering social and economic vitality, we are building the cities of tomorrow — <em style="font-style:italic;color:var(--foc-teal);font-weight:500">rooted in place, inspired by community, powered by nature</em>.
+      </p>
+    </div>
+    <div class="sr-scale" style="display:flex;align-items:center;justify-content:center;padding:10px">
+      <svg class="venn" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;height:auto;filter:drop-shadow(0 16px 40px rgba(166,220,205,.18))">
+        <defs>
+          <style>
+            .venn-circle{fill:rgba(255,255,255,0.04);stroke:rgba(255,255,255,0.9);stroke-width:1.4}
+            .venn-label{fill:#fff;font-family:"IBM Plex Sans",sans-serif;font-size:13px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;text-anchor:middle}
+          </style>
+        </defs>
+        <!-- Nature (top) -->
+        <circle class="venn-circle" cx="200" cy="140" r="115"/>
+        <!-- Community (bottom-left) -->
+        <circle class="venn-circle" cx="135" cy="250" r="115"/>
+        <!-- Culture (bottom-right) -->
+        <circle class="venn-circle" cx="265" cy="250" r="115"/>
+        <!-- Labels -->
+        <text class="venn-label" x="200" y="90">Nature</text>
+        <text class="venn-label" x="95" y="300">Community</text>
+        <text class="venn-label" x="305" y="300">Culture</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="slide-counter">04 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — FULL BLEED HERO
+     ============================================================ -->
+<section class="slide slide-4 dark" aria-label="Slide 5 of 16">
+  <img class="bleed" src="assets/hero-cliff.jpg" alt=""/>
+  <div class="noise"></div>
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+  <div class="cap">
+    <div class="eyebrow sr" style="color:var(--foc-teal)">A Partnership Premise</div>
+    <h2 class="sr" style="--d:80ms">Communities designed to <em style="font-style:italic;color:var(--foc-teal);font-weight:500">add years</em> — not just value.</h2>
+    <p class="sr" style="--d:160ms">Ninety years of Blue Zones research, translated into the buildings, neighborhoods, and operating models where people actually live.</p>
+  </div>
+  <div class="slide-counter">05 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — WHY BLUE ZONES
+     ============================================================ -->
+<section class="slide slide-5 dark" aria-label="Slide 6 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px">
+      <div style="flex:1">
+        <div class="eyebrow sr">Why Blue Zones?</div>
+        <h2 class="h-title sr" style="--d:60ms;margin-bottom:0">No brand has <em class="t-em">this combination</em>.</h2>
+      </div>
+      <img class="sr-scale" src="assets/bluezones_logo_og2.png" alt="Blue Zones" style="--d:120ms;height:92px;width:auto;margin-top:2px;flex-shrink:0;filter:brightness(0) invert(1)"/>
+    </div>
+    <div class="brand-divider sr" style="--d:100ms;margin-top:14px"></div>
+
+    <div class="stat-6">
+      <div class="stat teal sr" style="--d:140ms"><div class="n">75+</div><div class="lbl">Certified Communities</div></div>
+      <div class="stat sr" style="--d:200ms"><div class="n">4.5M+</div><div class="lbl">Lives Impacted</div></div>
+      <div class="stat purple sr" style="--d:260ms"><div class="n">#1</div><div class="lbl">NYT Bestselling Author</div></div>
+      <div class="stat teal sr" style="--d:320ms"><div class="n">190+</div><div class="lbl">Countries via Netflix</div></div>
+      <div class="stat sr" style="--d:380ms"><div class="n">20+</div><div class="lbl">Years of Research</div></div>
+      <div class="stat purple sr" style="--d:440ms"><div class="n">9</div><div class="lbl">Power 9 Principles</div></div>
+    </div>
+
+    <div class="btm-strip sr" style="--d:540ms;bottom:66px;padding:18px 24px">
+      <span class="pill purple">Differentiation</span>
+      <span>Other branded residence programs license aesthetics. <b>Blue Zones licenses outcomes</b> — a scientifically validated framework for how communities should be designed for well-being.</span>
+    </div>
+  </div>
+
+  <div class="footer-note" style="bottom:20px">Blue Zones community data: bluezones.com · Netflix: Live to 100: Secrets of the Blue Zones (2023, 190+ countries).</div>
+  <div class="slide-counter">06 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — PARTNERSHIP MODEL
+     ============================================================ -->
+<section class="slide slide-6" aria-label="Slide 7 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad">
+    <div class="eyebrow sr">Partnership Model</div>
+    <h2 class="h-title sr" style="--d:60ms">How it works.</h2>
+    <p class="h-sub sr" style="--d:100ms">Blue Zones is the wellness IP and brand. FOC is the <b>wellness real estate developer</b> — bringing regenerative placemaking certification, capital-stack architecture, and a deal-vetting service for BZ's inbound pipeline. Local JVs, government partners, and operators build under one standard.</p>
+
+    <div class="flow">
+      <div class="node sr-left" style="--d:160ms">
+        <span class="role">Blue Zones</span>
+        <h4>Brand IP & Certification</h4>
+        <p>Power 9 science, outcomes-based standards, brand oversight, community audits.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="node accent sr-left" style="--d:220ms">
+        <span class="role">Future of Cities</span>
+        <h4>Wellness RE Developer & Certification</h4>
+        <p>Deal sourcing & vetting, capital-stack structuring, regenerative placemaking certification, brand compliance.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="node sr-left" style="--d:280ms">
+        <span class="role">Local JV</span>
+        <h4>Executes & Operates</h4>
+        <p>Regional expertise, entitlements, construction, day-to-day operations.</p>
+        <span class="arrow">→</span>
+      </div>
+      <div class="node sr-left community" style="--d:340ms">
+        <span class="role">Blue Zones / FOC Community</span>
+        <h4>Revenue to All Parties</h4>
+        <p>Branded residences, certified senior campuses, and regenerative villages — with shared upside.</p>
+      </div>
+    </div>
+
+    <div class="targets sr" style="--d:440ms">
+      <div class="target"><span class="ttl">National Homebuilders</span><span class="sub">Lennar, Pulte, Toll Brothers 55+ divisions</span></div>
+      <div class="target"><span class="ttl">Senior Living Operators</span><span class="sub">Generations, Erickson, Life Care Services</span></div>
+      <div class="target"><span class="ttl">Master-Planned Developers</span><span class="sub">Urban, suburban & resort mixed-use (e.g., ChoZen)</span></div>
+      <div class="target"><span class="ttl">Resort Residences</span><span class="sub">Luxury wellness with deep brand integration</span></div>
+    </div>
+  </div>
+
+  <div class="slide-counter">07 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — ROLES & RESPONSIBILITIES
+     ============================================================ -->
+<section class="slide slide-7 light-b" aria-label="Slide 8 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight" style="padding-top:70px;padding-bottom:40px">
+    <div class="eyebrow sr">Roles & Responsibilities</div>
+    <h2 class="h-title sr" style="--d:60ms;font-size:34px;margin-bottom:10px">Who does <em class="t-em">what</em>.</h2>
+    <div class="brand-divider sr" style="--d:100ms"></div>
+
+    <div class="sr" style="--d:160ms">
+    <table class="t">
+      <thead>
+        <tr>
+          <th style="width:42%">Responsibility</th>
+          <th>Future of Cities</th>
+          <th>Blue Zones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Deal Sourcing & Pipeline</td><td><span class="role-lead">Lead</span></td><td><span class="role-dim">Informed</span></td></tr>
+        <tr><td>Market Screening & Diligence</td><td><span class="role-lead">Lead</span></td><td><span class="role-dim">Consulted</span></td></tr>
+        <tr><td>Partnership Vetting & Curation</td><td><span class="role-lead">Lead</span></td><td><span class="role-sec">Approval</span></td></tr>
+        <tr><td>Financial Structuring</td><td><span class="role-lead">Lead</span></td><td><span class="role-dim">Informed</span></td></tr>
+        <tr><td>Brand Licensing Negotiation</td><td><span class="role-lead">Lead</span></td><td><span class="role-sec">Approval</span></td></tr>
+        <tr><td>Certification (BZ + FOC)</td><td><span class="role-co">Co-Lead</span></td><td><span class="role-lead">Lead</span></td></tr>
+        <tr><td>Power 9 Design Framework</td><td><span class="role-dim">Integrates</span></td><td><span class="role-lead">Lead</span></td></tr>
+        <tr><td>Architectural & Design Review</td><td><span class="role-dim">Coordinates</span></td><td><span class="role-sec">Approves</span></td></tr>
+        <tr><td>Wellness Programming (Tier 3)</td><td><span class="role-dim">Supports</span></td><td><span class="role-lead">Lead</span></td></tr>
+        <tr><td>Brand Compliance & Audits</td><td><span class="role-dim">Manages</span></td><td><span class="role-sec">Approves</span></td></tr>
+        <tr><td>Sustainability Standards</td><td><span class="role-dim">Coordinates</span></td><td><span class="role-dim">Brand assets</span></td></tr>
+        <tr><td>Strategic Planning & Reporting</td><td><span class="role-dim">Prepares</span></td><td><span class="role-dim">Reviews</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="legend sr" style="--d:260ms">
+      <span><span class="dot" style="background:#292B41"></span>Lead / Active</span>
+      <span><span class="dot" style="background:var(--foc-teal)"></span>Co-lead</span>
+      <span><span class="dot" style="background:rgba(139,123,168,.6)"></span>Approval</span>
+      <span><span class="dot" style="background:rgba(90,93,120,.35)"></span>Supporting / Informed</span>
+    </div>
+  </div>
+  <div class="slide-counter">08 / 16</div>
+</section>
+
+<!-- ============================================================
+     NEW SLIDE — SUSTAINABILITY PLAN FOR BLUE ZONES CITIES
+     ============================================================ -->
+<section class="slide slide-sustain light-b" aria-label="Slide 9 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr">Where the Work Continues</div>
+    <h2 class="h-title sr" style="--d:60ms">A sustainability plan for <em class="t-em">Blue Zones cities</em>.</h2>
+    <p class="h-sub sr" style="--d:120ms;max-width:880px">The five-year certification sprint ends. The mission doesn't. This partnership turns every certified Blue Zones city into a long-term wellness real estate platform — funded by TIF, subsidy, and Opportunity Zone 2.0 capital. Activated mayors, committed health systems, and an engaged community are already on the ground.</p>
+
+    <div class="city-grid sr" style="--d:180ms">
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Jacksonville, FL</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Scottsdale, AZ</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Palm Springs, CA</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Riverside, CA</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Bakersfield, CA</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Galveston, TX</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Austin, TX</div>
+      </div>
+      <div class="city active">
+        <div class="sub">Active · BZ Certified</div>
+        <div class="name">Philadelphia, PA</div>
+      </div>
+      <div class="city coming">
+        <div class="sub">Coming Online · 2026</div>
+        <div class="name">+12 markets</div>
+      </div>
+    </div>
+
+    <div class="thesis-strip sr" style="--d:260ms">
+      <span class="tag">The thesis</span>
+      <div class="txt">Every certified Blue Zones city has an <b>activated mayor</b>, a <b>committed health system sponsor</b>, and a <b>5-year track record of community buy-in</b>. That infrastructure is the warmest deal pipeline in real estate — and it's sitting unmonetized.</div>
+    </div>
+  </div>
+  <div class="slide-counter">09 / 16</div>
+</section>
+
+<!-- ============================================================
+     NEW SLIDE — CAPITAL STACK / HEALTH SYSTEMS AS LPs
+     ============================================================ -->
+<section class="slide slide-stack dark summit" aria-label="Slide 10 of 16">
+  <div class="fish-field"></div>
+  <div class="noise"></div>
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr" style="color:var(--foc-teal)">The Capital Stack</div>
+    <h2 class="h-title sr" style="--d:60ms;color:#fff">Health systems as <em style="font-style:italic;color:var(--foc-teal);font-weight:500">local LPs</em>.</h2>
+    <p class="sr" style="--d:120ms;font-size:14.5px;line-height:1.6;color:var(--on-dark-body);max-width:900px;margin:0">
+      The largest Blue Zones sponsors are not-for-profit health systems — ecosystems with 30,000 employees, excess land, and a mandate to fund population health. Turn the sponsor relationship into <b style="color:#fff">an equity relationship</b>. Land becomes contribution. Sponsorship becomes a promote.
+    </p>
+
+    <div class="stack-grid sr" style="--d:220ms">
+      <div class="stack-col">
+        <div class="stack-piece">
+          <div class="role">City / Health System</div>
+          <div class="contrib">Land + TIF + Anchor Tenancy</div>
+          <div class="sub">Excess campus land contributed as equity. Tax-increment financing as gap capital. Medical tourism + MOB as anchor demand.</div>
+        </div>
+        <div class="stack-piece">
+          <div class="role">Blue Zones</div>
+          <div class="contrib">Brand + Certification + Power 9</div>
+          <div class="sub">Outcomes-based standards, community audits, and sponsor endorsement. The warm-lead engine.</div>
+        </div>
+        <div class="stack-piece">
+          <div class="role">Future of Cities</div>
+          <div class="contrib">Sponsor + Developer + Regen Framework</div>
+          <div class="sub">GP, master developer, capital-stack architect. Opportunity Zone 2.0 + TIF + green bond structuring.</div>
+        </div>
+        <div class="stack-piece">
+          <div class="role">Blue Zones Fund (LPs)</div>
+          <div class="contrib">Equity</div>
+          <div class="sub">Family offices, impact capital, institutional wellness mandates. Evergreen for district-scale holds.</div>
+        </div>
+      </div>
+
+      <div class="stack-arrow">→</div>
+
+      <div>
+        <div class="stack-result">
+          <div class="lbl">The output</div>
+          <h3>A Wellness District that funds itself.</h3>
+          <p>Perpetual revenue replaces five-year sponsorship. Every party gets a promote. The city gets measurable longevity outcomes. The partnership gets a repeatable playbook.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-strip sr" style="--d:340ms">
+      <span class="pill">Opportunity Zone 2.0</span>
+      <span class="pill">TIF Financing</span>
+      <span class="pill">Green Bonds</span>
+    </div>
+  </div>
+  <div class="slide-counter">10 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — THREE DEALS
+     ============================================================ -->
+<section class="slide slide-8" aria-label="Slide 11 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr">Illustrative Examples</div>
+    <h2 class="h-title sr" style="--d:60ms">Three example deals that <em class="t-em">elevate the brand</em>.</h2>
+    <p class="h-sub sr" style="--d:100ms;max-width:900px">Not a closed pipeline &mdash; directional examples of the shape, scale, and economics of deals we could pursue together across the three licensing tiers.</p>
+
+    <div class="deal-grid">
+
+      <div class="deal sr-left" style="--d:140ms">
+        <div class="img-frame"><img src="assets/deal-florida.jpg" alt="SW Florida 55+ village"/></div>
+        <div class="body">
+          <div class="pill-row">
+            <span class="pill">Flagship</span>
+            <span class="pill purple">Tier 2</span>
+          </div>
+          <div class="loc">SW Florida</div>
+          <h4>Purpose-Built 55+ Village</h4>
+          <p class="desc">200-unit active adult village around Power 9. Walkable core, community kitchen, nature trails.</p>
+          <div class="fee">
+            <div><div class="big">$4.2M</div><div style="font-size:10.5px;color:var(--foc-text-dim);letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:2px">Est. total fees</div></div>
+            <div class="det">$120M gross<br/>3.5% brand fee<br/>$250K upfront</div>
+          </div>
+          <div class="why">
+            <div class="k">Why it elevates the brand</div>
+            <div class="v">SW Florida ground zero — BZ already certified in area. Creates the visual story for every deal after.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="deal sr-left" style="--d:210ms">
+        <div class="img-frame"><img src="assets/deal-pnw.jpg" alt="Senior living campus PNW"/></div>
+        <div class="body">
+          <div class="pill-row">
+            <span class="pill">Deepest integration</span>
+            <span class="pill purple">Tier 3</span>
+          </div>
+          <div class="loc">Carolinas or PNW</div>
+          <h4>Senior Living Campus</h4>
+          <p class="desc">300-unit CCRC campus. Full operating model: food-as-medicine, movement, purpose workshops.</p>
+          <div class="fee">
+            <div><div class="big">$7.5M</div><div style="font-size:10.5px;color:var(--foc-text-dim);letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:2px">Est. total fees</div></div>
+            <div class="det">$150M dev cost<br/>5% brand fee<br/>$500K upfront</div>
+          </div>
+          <div class="why">
+            <div class="k">Why it elevates the brand</div>
+            <div class="v">Senior living = most measurable impact. Proves the science works and generates data.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="deal sr-left" style="--d:280ms">
+        <div class="img-frame"><img src="assets/deal-colombia.jpg" alt="ChoZen Colombia"/></div>
+        <div class="body">
+          <div class="pill-row">
+            <span class="pill">Brand storytelling</span>
+            <span class="pill purple">Tier 2</span>
+          </div>
+          <div class="loc">Antioquia, Colombia</div>
+          <h4>ChoZen Colombia</h4>
+          <p class="desc">92-acre regenerative community. Farm-to-table, wellness retreat, artisan village, equestrian trails. <em>"A blueprint for a blue zone."</em> — Dan Buettner</p>
+          <div class="fee">
+            <div><div class="big">$2.1M</div><div style="font-size:10.5px;color:var(--foc-text-dim);letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:2px">Est. total fees</div></div>
+            <div class="det">~92 acres · $60M gross<br/>3.5% brand fee<br/>$250K upfront</div>
+          </div>
+          <div class="why">
+            <div class="k">Why it elevates the brand</div>
+            <div class="v">Dan Sr.'s own blessing. Proves BZ applies beyond 55+ — a new category rooted in the original research.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-counter">11 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — TRACK RECORD
+     ============================================================ -->
+<section class="slide slide-9" aria-label="Slide 12 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr">Track Record</div>
+    <h2 class="h-title sr" style="--d:60ms">A portfolio of <em class="t-em">place-based</em> bets.</h2>
+    <p class="h-sub sr" style="--d:120ms">From Miami arts districts to Jacksonville wellness real estate to a Colombian regenerative village — FOC builds in the same markets where Blue Zones is already active.</p>
+
+    <div class="track-grid">
+      <div class="track sr-scale" style="--d:160ms">
+        <img src="assets/proj-jacksonville.jpg" alt="PHX-JAX Arts + Innovation District"/>
+        <div class="cap"><div class="k">Arts + Innovation · <span style="color:var(--foc-teal-ink)">BZ-aligned</span></div><div class="v">Jacksonville, FL · Naked Kitchen (BZ-certified) opens Q2</div></div>
+      </div>
+      <div class="track sr-scale" style="--d:220ms">
+        <img src="assets/proj-porto.jpg" alt="Porto"/>
+        <div class="cap"><div class="k">Europe · Golden Visa Fund</div><div class="v">Porto, Portugal</div></div>
+      </div>
+      <div class="track sr-scale" style="--d:280ms">
+        <img src="assets/proj-miami-event.jpg" alt="Miami climate + innovation"/>
+        <div class="cap"><div class="k">Climate & Innovation</div><div class="v">Miami, FL</div></div>
+      </div>
+      <div class="track sr-scale" style="--d:340ms">
+        <img src="assets/proj-sebastian.jpg" alt="Sebastian"/>
+        <div class="cap"><div class="k">Wellness Retreat</div><div class="v">Sebastian, FL</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-counter">12 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — LICENSING TIERS (dark)
+     ============================================================ -->
+<section class="slide slide-10 dark" aria-label="Slide 13 of 16">
+  <div class="fish-field"></div>
+  <div class="noise"></div>
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr">Licensing Tiers</div>
+    <h2 class="h-title sr" style="--d:60ms">How deep does the <em style="font-style:italic;color:var(--foc-teal);font-weight:500">brand</em> go?</h2>
+    <p class="h-sub sr" style="--d:120ms">Three tiers — from certification mark to full operating model.</p>
+
+    <div class="tiers">
+      <div class="tier sr-left" style="--d:160ms">
+        <div class="t-num">Tier 1 · Certification</div>
+        <h4>Blue Zones Certified Mark</h4>
+        <div class="tags">
+          <span class="tag">National Homebuilders</span>
+          <span class="tag">Existing Communities</span>
+        </div>
+        <div class="fee">2–3% Gross Sales</div>
+        <div class="desc">Certification designation, marketing rights, basic design guidelines, annual audit. Developer retains full control.</div>
+      </div>
+
+      <div class="tier featured sr-left" style="--d:240ms">
+        <div class="t-num">Tier 2 · Brand + Design</div>
+        <h4>Full Brand Licensing + Design Standards</h4>
+        <div class="tags">
+          <span class="tag">55+ Active Adult</span>
+          <span class="tag">Senior Living / CCRC</span>
+        </div>
+        <div class="fee">3–4% + HOA Fees</div>
+        <div class="desc">Architectural review, Power 9 community design, wellness programming framework, brand audits, marketing collaboration.</div>
+      </div>
+
+      <div class="tier sr-left" style="--d:320ms">
+        <div class="t-num">Tier 3 · Full Operating</div>
+        <h4>Deep Integration — Brand, Design & Operations</h4>
+        <div class="tags">
+          <span class="tag">Wellness Resorts</span>
+          <span class="tag">Premium Communities</span>
+        </div>
+        <div class="fee">4–6% + Ops Fees</div>
+        <div class="desc">Everything in Tier 2 plus operational programming (food, movement, community, purpose), staff training, technology, management consulting.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-counter">13 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — PROPOSED TERMS (LOI)
+     ============================================================ -->
+<section class="slide slide-11 light-b" aria-label="Slide 14 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr">Proposed Terms</div>
+    <h2 class="h-title sr" style="--d:60ms">Letter of <em class="t-em">Intent</em>.</h2>
+    <p class="h-sub sr" style="--d:120ms">Six principles to anchor the first 24 months — sweat equity, global exclusive, and a chemistry window to prove the pipeline.</p>
+
+    <div class="term-grid">
+      <div class="term sr" style="--d:160ms">
+        <div class="n">01</div>
+        <h4>Global Exclusive</h4>
+        <p>FOC as exclusive wellness RE development partner for Blue Zones branded communities, worldwide.</p>
+      </div>
+      <div class="term sr" style="--d:220ms">
+        <div class="n">02</div>
+        <h4>24-Month Chemistry Window</h4>
+        <p>Sweat equity from both sides. Either a predictable pipeline emerges, or we part as friends.</p>
+      </div>
+      <div class="term sr" style="--d:280ms">
+        <div class="n">03</div>
+        <h4>Right of First Look</h4>
+        <p>FOC vets all Blue Zones inbound real estate leads. Qualified deals go to joint pipeline.</p>
+      </div>
+      <div class="term sr" style="--d:340ms">
+        <div class="n">04</div>
+        <h4>Brand Stewardship</h4>
+        <p>Blue Zones retains final approval on all projects. FOC enforces annual compliance audits. Pull the license if fidelity drops.</p>
+      </div>
+      <div class="term sr" style="--d:400ms">
+        <div class="n">05</div>
+        <h4>Shared Economics</h4>
+        <p>Combined licensing fees, development fees, and promotes. Fees fund day-to-day. Promotes align the upside. Specific split TBD.</p>
+      </div>
+      <div class="term sr" style="--d:460ms">
+        <div class="n">06</div>
+        <h4>90-Day Sprint</h4>
+        <p>Identify 2–3 pilot projects. Leverage active Blue Zones cities for immediate deal flow.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-counter">14 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — CTA (dark, hero image)
+     ============================================================ -->
+<section class="slide slide-12 dark" aria-label="Slide 15 of 16">
+  <img class="bleed" src="assets/hero-community.jpg" alt=""/>
+  <div class="noise"></div>
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="wrap">
+    <div class="eyebrow sr" style="color:var(--foc-teal)">Let's Build This</div>
+    <h2 class="sr" style="--d:60ms">Sign the LOI.<br/>Find the first deal.<br/><em>Go to market together.</em></h2>
+
+    <div class="quote sr" style="--d:160ms">
+      "ChoZen is a blueprint for a blue zone."
+      <span class="att">— Dan Buettner, on Future of Cities' ChoZen community</span>
+    </div>
+
+    <div class="timeline sr" style="--d:240ms">
+      <div class="step">
+        <div class="n">1</div>
+        <div><div class="lbl">Execute LOI</div><div class="when">This month</div></div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div><div class="lbl">Identify pilots</div><div class="when">90 days</div></div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div><div class="lbl">First deal signed</div><div class="when">6 months</div></div>
+      </div>
+    </div>
+
+    <div class="sign sr" style="--d:320ms">
+      <span class="who">Tony Cho</span>
+      <span>·</span>
+      <span>Future of Cities</span>
+      <span>·</span>
+      <span>tony@focities.com</span>
+    </div>
+  </div>
+  <div class="slide-counter">15 / 16</div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — COMPETITIVE BENCHMARKS
+     ============================================================ -->
+<section class="slide slide-13" aria-label="Slide 16 of 16">
+  <div class="foc-mark">
+    <span class="kicker">Regenerative Placemaking</span>
+    <img class="word" src="assets/foc-symbol.png" alt="Future of Cities"/>
+  </div>
+  <div class="pair-badge"><span>FOC</span><span class="x">×</span><span>BLUE ZONES</span></div>
+
+  <div class="pad-tight">
+    <div class="eyebrow sr">Competitive Benchmarks</div>
+    <h2 class="h-title sr" style="--d:60ms">Comp set: <em class="t-em">branded residence fees</em>.</h2>
+    <div class="brand-divider sr" style="--d:100ms"></div>
+
+    <div class="sr" style="--d:140ms">
+    <table class="t">
+      <thead>
+        <tr>
+          <th style="width:22%">Fee Type</th>
+          <th class="bz">Blue Zones <span style="color:var(--foc-teal);font-weight:700">(Proposed)</span></th>
+          <th>Marriott Autograph</th>
+          <th>Auberge</th>
+          <th>Proper</th>
+          <th>Rosewood</th>
+          <th>Standard</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Brand License</b></td><td class="bz">3–4%</td><td>4%</td><td>5%</td><td>4%</td><td>4–5%</td><td>2%</td></tr>
+        <tr><td><b>Upfront Fee</b></td><td class="bz">$250–500K</td><td>$100K</td><td>N/A</td><td>$600K</td><td>N/A</td><td>N/A</td></tr>
+        <tr><td><b>HOA Mgmt</b></td><td class="bz">3–5%</td><td>4%</td><td>N/A</td><td>10%</td><td>N/A</td><td>N/A</td></tr>
+        <tr><td><b>Tech Services</b></td><td class="bz">0.5% Dev</td><td>$225K</td><td>N/A</td><td>$600K</td><td>N/A</td><td>N/A</td></tr>
+        <tr><td><b>Brand Audit</b></td><td class="bz">$25–40K</td><td>$20K</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="note sr" style="--d:240ms">
+      <b>Positioning.</b> Blue Zones fees are positioned competitively within the branded residence range — justified by a value proposition no other brand can match: <b>scientifically validated community design with measurable wellness outcomes</b>.
+    </div>
+  </div>
+
+  <div class="footer-note" style="bottom:24px">Sources: Fee benchmarks compiled from Savills, public filings, and industry reports. Blue Zones fees are proposed and subject to market testing.</div>
+  <div class="slide-counter">16 / 16</div>
+</section>
+
+<div class="deck-header" style="padding:14px 2px 2px">
+  <span class="wordmark" style="color:rgba(255,255,255,.45)">FOC × BLUE ZONES · PARTNERSHIP PROPOSAL</span>
+  <span class="divider"></span>
+  <span>Use ← → to navigate · press F for fullscreen</span>
+</div>
+
+</div>
+
+<script>
+// -----------------------------------------------------------
+// Scroll reveals
+// -----------------------------------------------------------
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); }
+  });
+},{threshold:.12, rootMargin:"0px 0px -8% 0px"});
+document.querySelectorAll('.sr,.sr-left,.sr-scale').forEach(el=>io.observe(el));
+
+// -----------------------------------------------------------
+// Keyboard nav: arrow keys jump between slides
+// -----------------------------------------------------------
+const slides = [...document.querySelectorAll('.slide')];
+function currentSlide(){
+  const mid = window.scrollY + window.innerHeight/2;
+  let idx = 0, best = Infinity;
+  slides.forEach((s,i)=>{
+    const r = s.getBoundingClientRect();
+    const top = r.top + window.scrollY;
+    const d = Math.abs(top + r.height/2 - mid);
+    if(d<best){best=d;idx=i;}
+  });
+  return idx;
+}
+function goTo(i){
+  i = Math.max(0, Math.min(slides.length-1, i));
+  slides[i].scrollIntoView({behavior:'smooth', block:'start'});
+}
+window.addEventListener('keydown',(e)=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); goTo(currentSlide()+1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); goTo(currentSlide()-1); }
+  else if(e.key==='Home'){ e.preventDefault(); goTo(0); }
+  else if(e.key==='End'){ e.preventDefault(); goTo(slides.length-1); }
+  else if(e.key==='f'||e.key==='F'){ document.documentElement.requestFullscreen?.(); }
+});
+</script>
+
+</body>
+</html>
